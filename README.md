@@ -20,7 +20,7 @@ A production-grade, full-stack e-commerce web application engineered with **Reac
 - **Executive Customer Dashboard**: Order statistics, total spend counter, registered address overview, and password management.
 
 ### 💳 Authentic Razorpay Payment Gateway
-- **Official Checkout Popup**: Integrated directly with Razorpay Checkout SDK (`https://checkout.razorpay.com/v1/checkout.js`).
+- **Official Checkout Popup**: Integrated directly with Razorpay Checkout SDK.
 - **Omnichannel Payments**: Supports Instant UPI (Google Pay, PhonePe, Paytm, QR Code), Credit/Debit Cards (Visa, Mastercard, RuPay), Net Banking (50+ banks), and Digital Wallets.
 - **Cryptographic Verification**: Server-side HMAC-SHA256 signature verification using Node.js `crypto` before fulfilling orders.
 - **Atomic Inventory Updates**: Real-time stock decrement upon confirmed payment.
@@ -50,9 +50,8 @@ Lab Project/
 ├── TEST_DATA.md                   # Ready-to-use Postman test data
 │
 ├── backend/                       # Express REST API Server
-│   ├── .env.example               # Template for environment variables
 │   ├── .gitignore                 # Backend-specific ignore rules
-│   ├── index.js                   # Server entry point & MongoDB Atlas connection
+│   ├── index.js                   # Server entry point & database connection
 │   ├── package.json
 │   ├── config/
 │   │   └── razorpay.js            # Razorpay SDK initialization & key manager
@@ -120,8 +119,7 @@ Lab Project/
 ### 1. Prerequisites
 - **Node.js** v18.0.0 or higher
 - **npm** v9.0.0 or higher
-- **MongoDB Atlas** database URI (or runs automatic in-memory MongoDB)
-- **Razorpay Account** (Test API Key ID & Secret from [Razorpay Dashboard](https://dashboard.razorpay.com))
+- Database connection string & Payment gateway credentials
 
 ---
 
@@ -137,22 +135,9 @@ Lab Project/
    npm install
    ```
 
-3. Create your `.env` configuration file from the template:
-   ```bash
-   cp .env.example .env
-   ```
+3. Configure your local environment variables in `backend/.env` (ensure `.env` remains strictly git-ignored).
 
-4. Populate `.env` with your values:
-   ```env
-   PORT=8000
-   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/ShopKart
-   JWT_SECRET=your_super_secret_jwt_key
-   NODE_ENV=development
-   RAZORPAY_KEY_ID=rzp_test_your_key_id
-   RAZORPAY_KEY_SECRET=your_razorpay_key_secret
-   ```
-
-5. Start the backend API server:
+4. Start the backend API server:
    ```bash
    npm start
    ```
@@ -186,9 +171,9 @@ Lab Project/
 
 ## 🔒 Security Best Practices
 
-1. **Zero Secret Exposure**: `.env` files, API keys, and database passwords are included in `.gitignore` and never committed to version control.
-2. **Cryptographic Payment Validation**: Razorpay payment signatures are validated using server-side HMAC-SHA256 (`crypto.createHmac('sha256', secretKey)`), guaranteeing zero payment tampering.
-3. **HTTP-Only Cookies**: JWT authentication tokens are transmitted via `httpOnly`, `sameSite: 'lax'` cookies to prevent XSS credential theft.
+1. **Zero Secret Exposure**: All `.env` files, credentials, and sensitive configurations are strictly ignored by `.gitignore` and never committed to version control.
+2. **Cryptographic Payment Validation**: Razorpay payment signatures are validated using server-side HMAC-SHA256 (`crypto.createHmac('sha256', secretKey)`), guaranteeing payment integrity and preventing tampering.
+3. **HTTP-Only Cookies**: JWT authentication tokens are transmitted via secure `httpOnly` cookies to protect against XSS credential theft.
 4. **CORS Hardening**: Strict origin whitelist configured for trusted frontend development and production URLs.
 
 ---
@@ -223,18 +208,18 @@ Lab Project/
 
 ### Deploying the Backend (Render / Railway)
 1. Push repository to GitHub (ensure `.env` is ignored).
-2. Create a new **Web Service** on [Render](https://render.com) or [Railway](https://railway.app).
+2. Create a new **Web Service** on your chosen cloud provider.
 3. Set the Root Directory to `backend`.
 4. Build Command: `npm install`
 5. Start Command: `npm start`
-6. Add your Environment Variables in the provider dashboard (`PORT`, `MONGODB_URI`, `JWT_SECRET`, `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`).
+6. Configure your environment variables in your cloud hosting provider dashboard.
 
 ### Deploying the Frontend (Vercel / Netlify)
-1. Create a new project on [Vercel](https://vercel.com) or [Netlify](https://netlify.com).
+1. Create a new project on Vercel or Netlify.
 2. Set Root Directory to `frontend`.
 3. Build Command: `npm run build`
 4. Output Directory: `dist`
-5. If using a custom backend URL in production, update `baseURL` in `frontend/src/services/api.js` or set `VITE_API_BASE_URL`.
+5. If using a custom backend URL in production, configure your API endpoint in `frontend/src/services/api.js`.
 
 ---
 
