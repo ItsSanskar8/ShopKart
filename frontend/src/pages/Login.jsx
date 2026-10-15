@@ -24,7 +24,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await api.post('/customers/login', formData);
+      const res = await api.post('/customers/login', formData);
+      if (res.data?.token) {
+        localStorage.setItem('token', res.data.token);
+      }
       navigate('/home');
     } catch (err) {
       const code = err.statusCode || err.response?.status;

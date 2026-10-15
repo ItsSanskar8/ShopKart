@@ -46,10 +46,12 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
+      localStorage.removeItem('token');
       clearCart();
       await api.post('/customers/logout');
       navigate('/login');
     } catch {
+      localStorage.removeItem('token');
       clearCart();
       navigate('/login');
     }

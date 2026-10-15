@@ -69,9 +69,11 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
+      localStorage.removeItem('token');
       await api.post('/customers/logout');
       navigate('/login');
     } catch {
+      localStorage.removeItem('token');
       navigate('/login');
     }
   };

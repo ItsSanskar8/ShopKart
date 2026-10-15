@@ -26,8 +26,13 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await api.post('/customers/register', formData);
-      navigate('/login');
+      const res = await api.post('/customers/register', formData);
+      if (res.data?.token) {
+        localStorage.setItem('token', res.data.token);
+        navigate('/home');
+      } else {
+        navigate('/login');
+      }
     } catch (err) {
       const code = err.statusCode || err.response?.status;
       const msg = err.response?.data?.message || err.message || 'Registration failed. Please try again.';
