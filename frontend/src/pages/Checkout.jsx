@@ -135,13 +135,7 @@ const Checkout = () => {
         }
 
         if (customerRes.status === 'fulfilled' && customerRes.value.data) {
-          const cust = customerRes.value.data;
-          setCustomer(cust);
-          setFormData((prev) => ({
-            ...prev,
-            fullName: prev.fullName || cust.name || '',
-            phone: prev.phone || cust.phone || '',
-          }));
+          setCustomer(customerRes.value.data);
         }
       } catch (err) {
         console.warn('Could not fetch initial checkout details:', err.message);
@@ -734,9 +728,11 @@ const Checkout = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  marginBottom: '1rem',
+                  marginBottom: '1.25rem',
                   borderBottom: '1px solid var(--border-subtle)',
-                  paddingBottom: '0.85rem',
+                  paddingBottom: '1rem',
+                  flexWrap: 'wrap',
+                  gap: '0.75rem',
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -756,7 +752,7 @@ const Checkout = () => {
                       2. Payment Method
                     </h2>
                     <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: 0 }}>
-                      Razorpay Official Gateway (Live / Test Gateway).
+                      Choose your preferred secure payment method.
                     </p>
                   </div>
                 </div>
@@ -764,90 +760,175 @@ const Checkout = () => {
                   style={{
                     fontSize: '0.75rem',
                     fontWeight: 700,
-                    color: 'var(--status-success-text)',
+                    color: '#047857',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '4px',
-                    background: 'var(--status-success-bg)',
-                    padding: '0.35rem 0.75rem',
+                    gap: '5px',
+                    background: '#ecfdf5',
+                    padding: '0.4rem 0.85rem',
                     borderRadius: '9999px',
-                    border: '1px solid var(--status-success-border)',
+                    border: '1px solid #a7f3d0',
                   }}
                 >
-                  <ShieldCheck size={14} /> Razorpay Verified Key
+                  <ShieldCheck size={14} /> 256-Bit SSL Secured
                 </span>
               </div>
 
               <div
                 style={{
-                  border: '2px solid var(--brand-accent)',
+                  border: '1.5px solid var(--brand-primary, #0c2340)',
                   borderRadius: '16px',
-                  padding: '1.25rem 1.35rem',
+                  padding: '1.35rem 1.5rem',
                   background: 'var(--bg-surface)',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)',
                   display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
+                  flexDirection: 'column',
                   gap: '1rem',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                    <div
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '50%',
+                        border: '6px solid var(--brand-primary, #0c2340)',
+                        backgroundColor: '#ffffff',
+                        flexShrink: 0,
+                      }}
+                    />
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <span style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text-primary)' }}>
+                          Online Payment via Razorpay
+                        </span>
+                        <span
+                          style={{
+                            fontSize: '0.68rem',
+                            fontWeight: 700,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.04em',
+                            padding: '3px 8px',
+                            borderRadius: '6px',
+                            background: 'rgba(2, 132, 199, 0.1)',
+                            color: '#0284c7',
+                          }}
+                        >
+                          Instant &amp; Verified
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>
+                        Pay securely using UPI, Credit/Debit Cards, Net Banking, or Digital Wallets.
+                      </p>
+                    </div>
+                  </div>
+
                   <div
                     style={{
-                      width: '46px',
-                      height: '46px',
-                      borderRadius: '12px',
-                      background: 'linear-gradient(135deg, #072654 0%, #0c2f64 100%)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#3399cc',
-                      fontWeight: 800,
-                      fontSize: '1.3rem',
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
+                      backgroundColor: 'var(--bg-surface-subtle)',
+                      color: 'var(--text-secondary)',
+                      border: '1px solid var(--border-subtle)',
                       flexShrink: 0,
                     }}
                   >
-                    R
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 700, fontSize: '0.98rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                      <span>Razorpay Official Gateway</span>
-                      <span style={{ fontSize: '0.7rem', padding: '2px 8px', borderRadius: '12px', background: 'var(--brand-accent-subtle)', color: 'var(--brand-accent)', fontWeight: 700 }}>
-                        Key: {paymentConfig.maskedKeyId || 'rzp_test_...'}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-                      Official popup modal supporting Instant UPI (GPay, PhonePe, Paytm, QR), Cards, Net Banking &amp; Wallets.
-                    </div>
+                    <Lock size={16} />
                   </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', color: 'var(--brand-accent)' }}>
-                  <CheckCircle size={22} />
-                </div>
-              </div>
 
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '1rem' }}>
-                {['UPI (GPay / PhonePe / Paytm / QR)', 'Credit / Debit Cards (Visa, MC, RuPay)', 'Net Banking (50+ Banks)', 'Digital Wallets'].map((rail) => (
-                  <span
-                    key={rail}
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+                    gap: '8px',
+                    paddingTop: '0.75rem',
+                    borderTop: '1px solid var(--border-subtle)',
+                  }}
+                >
+                  <div
                     style={{
-                      fontSize: '0.75rem',
-                      padding: '0.35rem 0.75rem',
-                      borderRadius: '8px',
+                      padding: '0.55rem 0.75rem',
+                      borderRadius: '10px',
                       background: 'var(--bg-surface-subtle)',
                       border: '1px solid var(--border-subtle)',
-                      color: 'var(--text-secondary)',
+                      fontSize: '0.78rem',
                       fontWeight: 600,
+                      color: 'var(--text-secondary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
                     }}
                   >
-                    {rail}
-                  </span>
-                ))}
+                    <span style={{ fontSize: '1rem' }}>⚡</span>
+                    <span>UPI / QR</span>
+                  </div>
+
+                  <div
+                    style={{
+                      padding: '0.55rem 0.75rem',
+                      borderRadius: '10px',
+                      background: 'var(--bg-surface-subtle)',
+                      border: '1px solid var(--border-subtle)',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      color: 'var(--text-secondary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    <CreditCard size={15} color="var(--brand-accent)" />
+                    <span>Cards (Visa, MC, RuPay)</span>
+                  </div>
+
+                  <div
+                    style={{
+                      padding: '0.55rem 0.75rem',
+                      borderRadius: '10px',
+                      background: 'var(--bg-surface-subtle)',
+                      border: '1px solid var(--border-subtle)',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      color: 'var(--text-secondary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    <Building size={15} color="#0284c7" />
+                    <span>Net Banking (50+ Banks)</span>
+                  </div>
+
+                  <div
+                    style={{
+                      padding: '0.55rem 0.75rem',
+                      borderRadius: '10px',
+                      background: 'var(--bg-surface-subtle)',
+                      border: '1px solid var(--border-subtle)',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      color: 'var(--text-secondary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                    }}
+                  >
+                    <span style={{ fontSize: '1rem' }}>👛</span>
+                    <span>Wallets</span>
+                  </div>
+                </div>
               </div>
 
               <div
                 style={{
-                  marginTop: '1.25rem',
-                  padding: '0.85rem 1rem',
+                  marginTop: '1rem',
+                  padding: '0.85rem 1.15rem',
                   background: 'var(--bg-surface-subtle)',
                   borderRadius: '12px',
                   border: '1px solid var(--border-subtle)',
@@ -858,9 +939,9 @@ const Checkout = () => {
                   color: 'var(--text-muted)',
                 }}
               >
-                <Zap size={16} color="var(--brand-accent)" style={{ flexShrink: 0 }} />
+                <ShieldCheck size={16} color="#059669" style={{ flexShrink: 0 }} />
                 <span>
-                  Clicking <strong>&ldquo;Proceed to Pay&rdquo;</strong> will launch the official Razorpay checkout pop-up linked to your Razorpay API key.
+                  Transactions are processed securely through Razorpay's encrypted checkout gateway. No card numbers or banking passwords are saved on our servers.
                 </span>
               </div>
             </div>

@@ -293,35 +293,26 @@ const OrderSuccess = () => {
             </div>
           </div>
 
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '12px',
-              backgroundColor: '#0c2340',
-              color: '#ffffff',
-              padding: '0.65rem 1.25rem',
-              borderRadius: '12px',
-              fontSize: '0.82rem',
-              boxShadow: '0 4px 12px rgba(12, 35, 64, 0.18)',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{ fontWeight: 800, color: '#38bdf8' }}>Razorpay</span>
-              <span style={{ opacity: 0.75 }}>&bull; Verified Payment Gateway</span>
-            </div>
             {razorpayPaymentId && (
-              <span style={{ fontFamily: 'monospace', color: '#67e8f9', background: 'rgba(255,255,255,0.1)', padding: '2px 8px', borderRadius: '6px' }}>
-                ID: {razorpayPaymentId}
-              </span>
+              <div
+                style={{
+                  backgroundColor: '#ecfdf5',
+                  color: '#047857',
+                  border: '1px solid #a7f3d0',
+                  padding: '0.55rem 1rem',
+                  borderRadius: '10px',
+                  fontSize: '0.86rem',
+                  fontWeight: 700,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                }}
+              >
+                <CheckCircle size={15} color="#059669" />
+                <span style={{ fontFamily: 'monospace' }}>Payment ID: {razorpayPaymentId}</span>
+              </div>
             )}
-            <span style={{ color: '#34d399', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}>
-              <Check size={14} /> HMAC-SHA256 Valid
-            </span>
           </div>
-        </div>
 
         <div
           style={{
